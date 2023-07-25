@@ -7,6 +7,26 @@ FACE_CASCADE = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 EYE_CASCADE = cv2.CascadeClassifier('haarcascade_eye.xml')
 SMILE_CASCADE = cv2.CascadeClassifier('haarcascade_smile.xml')
 
+def detect_faces(image):
+  new_img = np.array(image.convert('RGB'))
+  img = cv2.cvtColor(new_img, 1)
+  gray = cv2.cvtColor(new_img, cv2.COLOR_BGR2GRAY)
+
+  faces = FACE_CASCADE.detectMultiScale(gray, 1.1, 1)
+  for(x, y, w, h) in faces:
+    cv2.rectangle(img, (x,y), (x+w, y+h), (255, 0, 0), 2)
+    roi_gray = gray[y:y+h, x:x+h]
+    roi_color = img[y:y+h, x:x+h]
+    eyes = EYE_CASCADE.detectMultiScale(roi_gray)
+    smiles = SMILE_CASCADE.detectMultiScale(roi_gray, 2, 4)
+
+    for(ex, ey, ew, eh) in eyes:
+      cv2.rectangle(roi_color, (ex, ey), (ex+ew, ey+eh), (0,255,0), 2)
+
+    for (sx, sy, sw, sh) in smiles:
+      cv2.rectangle(roi_color, (sx, sy), ((sx+ sw), (sy+sh)), (0,0,255), 2)
+  return img, faces
+
 def main():
   """Face Detection APP"""
   st.title("Face Detection APP")
