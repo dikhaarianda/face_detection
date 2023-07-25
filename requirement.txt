@@ -3,5 +3,5 @@ opencv-python
 Pillow
 numpy
 
-link haarcades:
+link haarcascades:
 https://github.com/opencv/opencv/tree/master/data/haarcascades
