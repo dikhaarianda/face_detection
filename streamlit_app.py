@@ -35,5 +35,18 @@ def main():
   activities = ["Home", "About"]
   choice = st.sidebar.selectbox("Select Activity", activities)
 
+  if choice == 'Home':
+    st.subheader("Face Detection")
+    image_file = st.file_uploader("Upload Image", type=['jpg', 'png', 'jpeg'])
+    if image_file is not None:
+      image = Image.open(image_file)
+      st.text("Original Image")
+      st.image(image)
+
+  elif choice == "About":
+    st.subheader("About Face Detection APP")
+    st.markdown("Build with Streamlit and CV for Codepolitan Project")
+    st.text("Status: On Proggress")
+
 if __name__ == '__main__':
   main()
