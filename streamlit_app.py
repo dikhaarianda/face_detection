@@ -35,13 +35,25 @@ def main():
   activities = ["Home", "About"]
   choice = st.sidebar.selectbox("Select Activity", activities)
 
+  global image
+
   if choice == 'Home':
     st.subheader("Face Detection")
+
     image_file = st.file_uploader("Upload Image", type=['jpg', 'png', 'jpeg'])
     if image_file is not None:
       image = Image.open(image_file)
       st.text("Original Image")
       st.image(image)
+
+    task = ["Face Detection"]
+    feature_choice = st.sidebar.selectbox("Task", task)
+
+    if st.button("Process"):
+      if feature_choice == "Face Detection":
+        result_img, result_face = detect_faces(image)
+        st.success("Found {} faces".format(len(result_face)))
+        st.image(result_img)
 
   elif choice == "About":
     st.subheader("About Face Detection APP")
